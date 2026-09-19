@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: respiro-backend
+
+server:
+  port: 8080
