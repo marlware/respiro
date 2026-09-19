@@ -63,9 +63,17 @@ Run the tests with `mvn test`, or build the container with `docker build -t resp
 
 ### iOS client
 
-The Swift source lives in `ios/Respiro/` and its tests in `ios/RespiroTests/`. Building the app requires Xcode on macOS:
+The models, networking, view model, and views live in `ios/Sources/Respiro/` as a Swift package (`ios/Package.swift`), with tests in `ios/Tests/RespiroTests/`. This part doesn't need Xcode:
+
+```
+cd ios
+swift test
+```
+
+The app entry point (`ios/Respiro/App/RespiroApp.swift`) does need Xcode on macOS, since it's what turns this into an actual installable app:
 
 1. Create a new iOS App project in Xcode (SwiftUI interface).
-2. Add the files under `ios/Respiro/` to the project, and `ios/RespiroTests/` as a unit test target.
-3. If running on a physical device, update `RespiroApp.backendURL` to your Mac's LAN address — `localhost` on a device refers to the device itself.
-4. Run the backend first, then build and run the app.
+2. Add `ios/` as a local Swift package dependency (File → Add Package Dependencies → Add Local), and add `Respiro` to the app target.
+3. Add `ios/Respiro/App/RespiroApp.swift` to the app target, in place of the default one Xcode generates.
+4. If running on a physical device, update `RespiroApp.backendURL` to your Mac's LAN address — `localhost` on a device refers to the device itself.
+5. Run the backend first, then build and run the app.
