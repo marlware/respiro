@@ -6,3 +6,9 @@ spring:
 
 server:
   port: 8080
+
+app:
+  cors:
+    # Comma-separated list of allowed origins, e.g. https://myapp.example.com.
+    # Defaults to "*" for local development.
+    allowed-origins: "*"
