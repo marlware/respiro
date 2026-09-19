@@ -8,10 +8,14 @@ enum RespiroAPIError: Error {
 /// Talks to the Spring Boot backend's `/api/vitals` endpoints.
 struct RespiroAPIClient {
     let baseURL: URL
+    private let apiKey: String?
     private let session: URLSession
 
-    init(baseURL: URL, session: URLSession = .shared) {
+    /// `apiKey` should be `nil` unless the backend was started with
+    /// `app.api-key` set, in which case it must match that value.
+    init(baseURL: URL, apiKey: String? = nil, session: URLSession = .shared) {
         self.baseURL = baseURL
+        self.apiKey = apiKey
         self.session = session
     }
 
@@ -35,6 +39,9 @@ struct RespiroAPIClient {
 
         var request = URLRequest(url: url)
         request.setValue("application/fhir+json", forHTTPHeaderField: "Accept")
+        if let apiKey {
+            request.setValue(apiKey, forHTTPHeaderField: "X-API-Key")
+        }
 
         let (data, response) = try await session.data(for: request)
         guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {

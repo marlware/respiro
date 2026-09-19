@@ -12,9 +12,11 @@ public final class VitalsViewModel: ObservableObject {
 
     private let maxHistory = 50
 
-    public init(baseURL: URL) {
-        self.apiClient = RespiroAPIClient(baseURL: baseURL)
-        self.eventStream = VitalsEventStream(baseURL: baseURL)
+    /// `apiKey` should be `nil` unless the backend was started with
+    /// `app.api-key` set, in which case it must match that value.
+    public init(baseURL: URL, apiKey: String? = nil) {
+        self.apiClient = RespiroAPIClient(baseURL: baseURL, apiKey: apiKey)
+        self.eventStream = VitalsEventStream(baseURL: baseURL, apiKey: apiKey)
     }
 
     public func start() {

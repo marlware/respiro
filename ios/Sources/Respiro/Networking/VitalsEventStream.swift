@@ -4,10 +4,14 @@ import Foundation
 /// endpoint and yields a decoded `VitalsReading` for each `data:` line.
 struct VitalsEventStream {
     let baseURL: URL
+    private let apiKey: String?
     private let session: URLSession
 
-    init(baseURL: URL, session: URLSession = .shared) {
+    /// `apiKey` should be `nil` unless the backend was started with
+    /// `app.api-key` set, in which case it must match that value.
+    init(baseURL: URL, apiKey: String? = nil, session: URLSession = .shared) {
         self.baseURL = baseURL
+        self.apiKey = apiKey
         self.session = session
     }
 
@@ -16,7 +20,11 @@ struct VitalsEventStream {
             let task = Task {
                 do {
                     let url = baseURL.appendingPathComponent("/api/vitals/stream")
-                    let (bytes, response) = try await session.bytes(for: URLRequest(url: url))
+                    var request = URLRequest(url: url)
+                    if let apiKey {
+                        request.setValue(apiKey, forHTTPHeaderField: "X-API-Key")
+                    }
+                    let (bytes, response) = try await session.bytes(for: request)
                     guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
                         continuation.finish(throwing: RespiroAPIError.unexpectedResponse)
                         return
