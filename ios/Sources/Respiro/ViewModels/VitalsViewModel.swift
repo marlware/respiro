@@ -1,10 +1,10 @@
 import Foundation
 
 @MainActor
-final class VitalsViewModel: ObservableObject {
-    @Published private(set) var latest: VitalsReading?
-    @Published private(set) var history: [VitalsReading] = []
-    @Published private(set) var isConnected = false
+public final class VitalsViewModel: ObservableObject {
+    @Published public private(set) var latest: VitalsReading?
+    @Published public private(set) var history: [VitalsReading] = []
+    @Published public private(set) var isConnected = false
 
     private let apiClient: RespiroAPIClient
     private let eventStream: VitalsEventStream
@@ -12,12 +12,12 @@ final class VitalsViewModel: ObservableObject {
 
     private let maxHistory = 50
 
-    init(baseURL: URL) {
+    public init(baseURL: URL) {
         self.apiClient = RespiroAPIClient(baseURL: baseURL)
         self.eventStream = VitalsEventStream(baseURL: baseURL)
     }
 
-    func start() {
+    public func start() {
         guard streamTask == nil else { return }
 
         Task {
@@ -42,7 +42,7 @@ final class VitalsViewModel: ObservableObject {
         }
     }
 
-    func stop() {
+    public func stop() {
         streamTask?.cancel()
         streamTask = nil
         isConnected = false

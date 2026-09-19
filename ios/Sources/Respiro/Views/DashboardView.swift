@@ -1,9 +1,13 @@
 import SwiftUI
 
-struct DashboardView: View {
+public struct DashboardView: View {
     @ObservedObject var viewModel: VitalsViewModel
 
-    var body: some View {
+    public init(viewModel: VitalsViewModel) {
+        self.viewModel = viewModel
+    }
+
+    public var body: some View {
         ScrollView {
             VStack(spacing: 24) {
                 connectionStatus
