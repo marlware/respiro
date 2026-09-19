@@ -61,6 +61,8 @@ Starts on `http://localhost:8080` and begins generating a simulated reading ever
 
 Run the tests with `mvn test`, or build the container with `docker build -t respiro-backend backend`.
 
+By default the API is open and any origin can call it — fine for local development. Set `app.api-key` (or the `APP_API_KEY` env var) to require an `X-API-Key` header on `/api/**` requests, and `app.cors.allowed-origins` to restrict which origins can call it from a browser.
+
 ### iOS client
 
 The models, networking, view model, and views live in `ios/Sources/Respiro/` as a Swift package (`ios/Package.swift`), with tests in `ios/Tests/RespiroTests/`. This part doesn't need Xcode:
@@ -76,4 +78,5 @@ The app entry point (`ios/Respiro/App/RespiroApp.swift`) does need Xcode on macO
 2. Add `ios/` as a local Swift package dependency (File → Add Package Dependencies → Add Local), and add `Respiro` to the app target.
 3. Add `ios/Respiro/App/RespiroApp.swift` to the app target, in place of the default one Xcode generates.
 4. If running on a physical device, update `RespiroApp.backendURL` to your Mac's LAN address — `localhost` on a device refers to the device itself.
-5. Run the backend first, then build and run the app.
+5. If the backend has `app.api-key` set, pass it to `VitalsViewModel(baseURL:apiKey:)` in `RespiroApp`.
+6. Run the backend first, then build and run the app.
