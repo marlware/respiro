@@ -12,3 +12,6 @@ app:
     # Comma-separated list of allowed origins, e.g. https://myapp.example.com.
     # Defaults to "*" for local development.
     allowed-origins: "*"
+  # Set to require an X-API-Key header on /api/** requests. Left blank
+  # (the default) for frictionless local development.
+  api-key: ""
