@@ -18,6 +18,7 @@ import java.util.List;
 public class VitalsController {
 
     private static final String FHIR_JSON = "application/fhir+json";
+    private static final int MAX_HISTORY_LIMIT = 50;
 
     private final VitalsService vitalsService;
     private final VitalsBroadcaster broadcaster;
@@ -43,7 +44,7 @@ public class VitalsController {
 
     @GetMapping(value = "/api/vitals/history", produces = FHIR_JSON)
     public String history(@RequestParam(defaultValue = "50") int limit) {
-        if (limit < 1 || limit > 50) {
+        if (limit < 1 || limit > MAX_HISTORY_LIMIT) {
             throw new InvalidHistoryLimitException(limit);
         }
         List<VitalsReading> readings = vitalsService.recentHistory().stream()
