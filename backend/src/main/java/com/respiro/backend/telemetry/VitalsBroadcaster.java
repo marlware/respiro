@@ -29,7 +29,8 @@ public class VitalsBroadcaster {
         for (SseEmitter emitter : subscribers) {
             try {
                 emitter.send(SseEmitter.event().name("vitals").data(reading));
-            } catch (IOException exception) {
+            } catch (IOException | IllegalStateException exception) {
+                // IllegalStateException: the emitter already completed.
                 subscribers.remove(emitter);
             }
         }
