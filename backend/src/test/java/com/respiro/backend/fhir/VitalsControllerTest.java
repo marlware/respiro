@@ -47,4 +47,19 @@ class VitalsControllerTest {
         assertThat(catchThrowable(() -> controller.history(0))).isInstanceOf(InvalidHistoryLimitException.class);
         assertThat(catchThrowable(() -> controller.history(51))).isInstanceOf(InvalidHistoryLimitException.class);
     }
+
+    @Test
+    void historyAcceptsLimitBoundsAndHonorsLimit() {
+        Instant now = Instant.now();
+        for (int i = 0; i < 3; i++) {
+            repository.save(new VitalsReadingEntity(95 + i, 70 + i, now.plusSeconds(i)));
+        }
+
+        Bundle one = (Bundle) fhirContext.newJsonParser().parseResource(controller.history(1));
+        Bundle max = (Bundle) fhirContext.newJsonParser().parseResource(controller.history(50));
+
+        // each reading maps to two observations (SpO2 and pulse)
+        assertThat(one.getEntry()).hasSize(2);
+        assertThat(max.getEntry().size()).isGreaterThanOrEqualTo(6);
+    }
 }
