@@ -60,19 +60,26 @@ flowchart TD
 
 ## Why these technologies
 
-Each tool was picked for a reason. Here's what each one does for Respiro.
-
-- **Java and Spring Boot** make it quick to build the backend that makes and serves readings
-- **FHIR** is the standard shape for healthcare data, so other health tools can understand the readings
-- **HAPI FHIR** is a Java library that builds proper FHIR objects, so they don't have to be written by hand
-- **Server-Sent Events** push each new reading to the app, so the app doesn't have to keep asking
-- **H2** is a quick in-memory database, so there's nothing to set up
-- **Swift and SwiftUI** build a native iPhone app with accessibility features built in
-- **UIKit** draws the live graph fast, by updating one layer instead of redrawing the whole thing
+- **Java and Spring Boot** make the backend quick to build
+- **FHIR** is the standard format for healthcare data
+- **HAPI FHIR** builds FHIR objects for you
+- **Server-Sent Events** push new readings to the app
+- **H2** is an in-memory database with no setup
+- **Swift and SwiftUI** build a native iPhone app
+- **UIKit** draws the live graph fast
 - **JUnit and XCTest** test the backend and the app
-- **Docker** packages the backend so it runs the same everywhere
-- **GitHub Actions** runs the backend tests on every change
-- **AWS** is planned for running it in the cloud, but it isn't built yet
+- **Docker** packages the backend
+- **GitHub Actions** runs the backend tests
+- **AWS** will run it in the cloud (planned)
+
+Here's how the pieces connect.
+
+```mermaid
+flowchart LR
+    Readings["Simulated readings: Java + Spring Boot"] --> H2[("H2 database")]
+    Readings --> FHIR["HAPI FHIR"]
+    FHIR -->|REST + Server-Sent Events| App["iPhone app: SwiftUI + UIKit graph"]
+```
 
 ## Getting started
 
