@@ -58,6 +58,22 @@ flowchart TD
 - **Packaging and CI:** Docker and GitHub Actions
 - **Planned, not built yet:** deploying to AWS (ECR, ECS, and IAM)
 
+## Why these technologies
+
+Each tool was picked for a reason. Here's what each one does for Respiro.
+
+- **Java and Spring Boot** make it quick to build the backend that makes and serves readings
+- **FHIR** is the standard shape for healthcare data, so other health tools can understand the readings
+- **HAPI FHIR** is a Java library that builds proper FHIR objects, so they don't have to be written by hand
+- **Server-Sent Events** push each new reading to the app, so the app doesn't have to keep asking
+- **H2** is a quick in-memory database, so there's nothing to set up
+- **Swift and SwiftUI** build a native iPhone app with accessibility features built in
+- **UIKit** draws the live graph fast, by updating one layer instead of redrawing the whole thing
+- **JUnit and XCTest** test the backend and the app
+- **Docker** packages the backend so it runs the same everywhere
+- **GitHub Actions** runs the backend tests on every change
+- **AWS** is planned for running it in the cloud, but it isn't built yet
+
 ## Getting started
 
 ### Backend
