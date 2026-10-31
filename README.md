@@ -72,8 +72,6 @@ flowchart TD
 - **GitHub Actions** runs the backend tests
 - **AWS** will run it in the cloud (planned)
 
-Here's how the pieces connect.
-
 ```mermaid
 flowchart LR
     Readings["Simulated readings: Java + Spring Boot"] --> H2[("H2 database")]
